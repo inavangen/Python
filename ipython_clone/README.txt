@@ -1,18 +1,16 @@
-Requirements
-	- Flask must be installed in order to use the web-interface.
-	- console.html must be located at path: /templates/
+#IPYTHON CLONE
+Made by: Ina Vangen
 
-When feedline is run in ipython it returns funny output such as:
-	In [5]: feedline("x=1")
-	Out[5]: '\nout[2]: \nin [2]: '
+#Introduction:
+This clone will have the core functionality of IPython, such as magic functions, tab completion and will even come with a simple web interface. To this end, the script getchar.py is provided to simplify character input for the console interface. It can both be used to explore the behavior of different special character.
 
-	In [6]: feedline("print x")
-	Out[6]: '\nout[3]: 1\n\nin [3]:
+#Installation:
+- Flask must be installed in order to use the web-interface.
+- console.html must be located at path: /templates/
 
-This is due to that the assingment text says that the "return value should be a string containing the output of the command run and the next prompt for the command after". This makes it prettier in the mypython and the web-interface version. Yet this could be fixed by removing parts of the retstring such as:
+- Mypython.py is the ipython clone. Simply run by: python mypython.py
+- Feedline.py is the operating backend and either exec. or eval. a given string and returns it (implementing getchar.py).
+- Mypython_web.py is a simple webinterface -version of mypython. Run by: python mypython_web.py. Webinterface can then (after running) be found at: http://localhost:5000/ 
 
-	ret_string = str(out)
 
-instead of:
 
-	ret_string = "\nout[" + str(counter+1) +"]: " + str(out) + "\nin [" + str(counter+1) +"]: "
