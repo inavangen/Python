@@ -1,0 +1,52 @@
+<!doctype html>
+<title>Mypython - Web interface</title>
+<head>
+<style>
+	body {
+	    background-color: #0F0F0F;
+	    color: white;
+	    font-family: sans-serif;
+	}
+	td{
+		width: 40%;
+	}
+	#textfield {
+	    position: fixed;
+	    bottom: 0;
+	}
+	#outputrow {
+	    position: fixed;	
+	}
+</style>
+</head>
+
+<body>
+	<table border="0" style="width:80%; overflow: scrollable;">
+		<tr>
+			<td>Input <br \></td>
+			<td>Output <br \></td>
+		</tr>
+		<tr>
+			<td id="inputrow">		
+				{% for item in inp %}
+					<p style="color:#01DF01">in [{{loop.index}}]: {{ item }}</p>
+				{%endfor%}
+			</td>			
+			<td id="outputrow">	
+				{% for item in outp %}
+					<p style="color:red">out[{{loop.index}}]: {{ item }}</p>
+				{%endfor%}
+			</td>
+		</tr>	
+	</table>
+
+	<div id="textfield">
+		<form action="mypython" method="POST">
+		    Console input:
+		    <br>
+		    <input type="text" name="code" size="80">
+		    <input type="submit" value="Submit">
+		</form>
+	</div>
+</body>    
+

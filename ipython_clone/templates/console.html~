@@ -1,0 +1,35 @@
+<!doctype html>
+<title>Web interface</title>
+<head>
+<style>
+body {
+    background-color: #2E2E2E;
+    color: white;
+}
+
+#textfield {
+    position: fixed;
+    bottom: 0;
+}
+</style>
+</head>
+
+<body>
+{% if output %}
+<p style="color:red">{{ output }}</p>
+{% endif %}
+
+{% if inp %}
+<p style="color:lightgreen">{{ inp }}</p>
+{% endif %}
+
+<div id="textfield">
+<form action="handle_login" method="POST">
+    Console input:
+    <br>
+    <input type="text" name="input" size="70">
+    <input type="submit" value="Submit">
+</div>
+</form>
+</body>    
+

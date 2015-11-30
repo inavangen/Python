@@ -1,0 +1,109 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\title{INF3331 - Assignment 5}
+\author{Ina Vangen, ivvangen}
+
+\begin{document}
+\maketitle
+
+\section*{5.5 Write a Latex report}
+
+Describe what you have done in a Latex report. In addition, add a runtime
+comparison for the different implementations and explain the differences.
+File: report.tex and report.pdf 
+
+\section*{How the code works}
+\subsection*{0. Setup}
+\begin{flushleft}
+Operating system: Ubuntu 14.04 LTS \\
+Python version: 2.7.6 \newline  
+
+\textbf{Packages used:} pickle, argparse, timeit, time, math, numpy, matplotlib, pyximport, os, re, random \newline
+ 
+\textbf{Important:} There was some troubles testing the script on the university-computers because matplotlib and cython were not installed on them. In order to make sure the code works, make sure all the packages above are installed and that you are using a compatible python version.
+\end{flushleft}        
+
+\subsection*{1. Introduction}
+\begin{flushleft}
+The script is divided into several python (.py) -files. The heat\_equation\_ui.py is the file containing the argsparser (takes arguments from command line) and is the file that you are supposed to run to start the heat equation. You will find a short version on how to run it in the README.txt. Below follows more detailed section on how to run the script and how the core functions work. \newline
+
+In section 6-8, there will be a brief explanation on the different heat equation implemention as well as computation times. All computation times in the following section were done with the same values (default as in assignment), and we run on the from the same computer. The goal is to demonstrate the time differences of each implementation. \newline
+\end{flushleft}                           
+
+\subsection*{2. Running the script}
+\begin{flushleft}                           
+
+To run script write: python $heat\_equation\_ui.py$ in the command line. \newline
+
+The $heat\_equation\_ui.py$ uses argsparse to let the user specify how the script should behave. The user are able to speficy the dimensions, start time, end time, timestep, thermal difusity, heat source, type of heat equation, as well as choosing whenether verbose, timit -mode should be on, or if the data should be read, written or saved as an image. All these values are set to a default value and doesn't need to be specified unless needed.\newline 
+
+The most important part is to selec which type of heat equation (see section below detail on how each implementation works). To see how to specify the script using arpase, simply add the $--help$ command when running the script.
+\end{flushleft}                           
+
+\subsection*{3. Heat equation}
+\begin{flushleft}                           
+The script sets all variables to the desired values and then calls the seleced type (using argparse). For example will $heat\_equation\_numpy()$ be called if the numpy type were choosen, and $heat\_equation\_cython()$ if the cython type were choosen. This function return a list of data ($data\_list$).
+\end{flushleft}  
+
+\subsection*{4. Plotting}
+\begin{flushleft}  
+The $plot\_data()$-function what is found in $plotting.py$ is based on matplotlib's pyplot and divides the section into several subplots within a grid using matplotlib's gridspec. $plot\_data()$ takes two list as a parameter. Left plot of a list that contains the initial values ($data\_list\_init$), and right plot of a list that contain the calculated data ($data\_list$). 
+\end{flushleft}           
+
+\subsection*{5. Testing}
+
+\begin{flushleft}                           
+The user can specify if a test should run after the heat equation is performed. Testing is turned on by default. To turn off, add $-test$ in the command line when running the $heat\_equation\_ui.py$-script. \newline 
+
+This function is to demonstrate that the implementation is mathematically correct. The $testing()$-function can be found in the $test\_heat.py$-file. The script calculates a new heat source (f) using the $get\_heat()$-function and an analytic\_u using the $get\_analytic()$-function. It then performs a $heat\_equation\_numpy()$ using the new parameters (any heat equation type could have been choosen) and then compares the returned value (u) with the analytic\_u. This is to see if there is an error value in it.
+\end{flushleft}                        
+
+\subsection*{6. Python implementation}
+\begin{flushleft}                           
+This implementation initalizes the necessary lists and uses a double for-loop to iterate over each object in the list. In each interation the equation is performed for each element in the 2-dimentional array. This is a very slow implementation (reasons follow in next sections).
+\end{flushleft}                           
+
+\textbf{Average computation time: }182.160234213 sec
+\begin{itemize}  
+\item 185.69433784484863 sec
+\item 181.72458600997925 sec
+\item 181.0921471118927 sec
+\item 181.49347305297852 sec
+\item 180.79662704467773 sec
+\end{itemize}
+
+\subsection*{7. Numpy implementation}
+\begin{flushleft}                           
+Numpy uses arrays of the same type as well as using vectorization and is therefore faster than the normal python implementation where the type is objects (which requires heavies computation time). Numpy also avoids a double for-loop which is consideres a very slow method to iterate through lists\/arrays 
+\end{flushleft}                           
+
+\textbf{Average computation time: }12.9623294353 sec
+\begin{itemize}  
+\item 13.0695321559906 sec
+\item 12.936105012893677 sec
+\item 12.955157995223999 sec
+\item 12.946208000183105 sec
+\item 12.904644012451172 sec
+\end{itemize}
+
+\subsection*{8. Cython implementation}
+\begin{flushleft}                           
+Cython allows to write code that is similar to Python but translates it into C-code. If done correctly (optimized) this can be faster than numpy. This is likely because of some overhead in numpy. C code in general is faster than Python bacause it not interpreted which Python is. C also dont use obejct, but rather types (as with numpy) as well as having a better memory management.
+\end{flushleft}                           
+
+\textbf{Average computation time: }2.15159683228 sec
+\begin{itemize}  
+\item 2.0980420112609863 sec
+\item 2.0902230739593506 sec
+\item 2.0964248180389404 sec
+\item 2.326665163040161 sec
+\item 2.1466290950775146 sec
+\end{itemize}
+
+\end{document}
